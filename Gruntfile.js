@@ -8,12 +8,11 @@
 
 'use strict';
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
-  // Project configuration.
   grunt.initConfig({
     jshint: {
-      all: [
+      all:     [
         'Gruntfile.js',
         'tasks/*.js',
         '<%= nodeunit.tests %>'
@@ -23,57 +22,121 @@ module.exports = function(grunt) {
       }
     },
 
-    // Before generating any new files, remove any previously-created files.
-    clean: {
+    clean:        {
       tmp: ['tmp/result/*.{json}']
     },
 
     // Configuration to be run (and then tested).
     convert_json: {
-      text2json: {
+      text2json:     {
         files: [
           {
-            expand: true,           // Enable dynamic expansion.
-            cwd: 'test/fixtures/',  // Src matches are relative to this path.
-            src: ['**/*.txt'],      // Actual pattern(s) to match.
-            dest: 'tmp',    // Destination path prefix.
-            ext: '.json'
+            expand: true,
+            cwd:    'test/fixtures/',
+            src:    ['test.txt'],
+            dest:   'tmp',
+            ext:    '.json'
           }
         ]
       },
-      json2text: {
+      json2text:     {
         files: [
           {
-            expand: true,           // Enable dynamic expansion.
-            cwd: 'test/fixtures/',  // Src matches are relative to this path.
-            src: ['**/*.json'],      // Actual pattern(s) to match.
-            dest: 'tmp',    // Destination path prefix.
-            ext: '.txt'
+            expand: true,
+            cwd:    'test/fixtures/',
+            src:    ['test.json'],
+            dest:   'tmp',
+            ext:    '.txt'
+          }
+        ]
+      },
+      text2jsonMinified:     {
+        options: {
+          minify: true
+        },
+        files: [
+          {
+            expand: true,
+            cwd:    'test/fixtures/',
+            src:    ['test_minified.txt'],
+            dest:   'tmp',
+            ext:    '.json'
+          }
+        ]
+      },
+      testToTextWithDelimiter: {
+        options: {
+          delimiter: '=>'
+        },
+        files:   [
+          {
+            expand: true,
+            cwd:    'test/fixtures/',
+            src:    ['test_delimiter.json'],
+            dest:   'tmp',
+            ext:    '.txt'
+          }
+        ]
+      },
+      testToJsonWithDelimiter: {
+        options: {
+          delimiter: '=>'
+        },
+        files:   [
+          {
+            expand: true,
+            cwd:    'test/fixtures/',
+            src:    ['test_delimiter.txt'],
+            dest:   'tmp',
+            ext:    '.json'
+          }
+        ]
+      },
+      testToJsonOnlyKeys:  {
+        options: {
+          onlyKeys: true
+        },
+        files:   [
+          {
+            expand: true,
+            cwd:    'test/fixtures/',
+            src:    ['test_only_keys.txt'],
+            dest:   'tmp',
+            ext:    '.json'
+          }
+        ]
+      },
+      testToTextOnlyKeys:  {
+        options: {
+          onlyKeys: true
+        },
+        files:   [
+          {
+            expand: true,
+            cwd:    'test/fixtures/',
+            src:    ['test_only_keys.json'],
+            dest:   'tmp',
+            ext:    '.txt'
           }
         ]
       }
     },
 
     // Unit tests.
-    nodeunit: {
+    nodeunit:     {
       tests: ['test/*_test.js']
     }
 
   });
 
-  // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
 
-  // These plugins provide necessary tasks.
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-  // Whenever the "test" task is run, first clean the "tmp" dir, then run this
-  // plugin's task(s), then test the result.
   grunt.registerTask('test', ['clean', 'convert_json', 'nodeunit']);
 
-  // By default, lint and run all tests.
-  grunt.registerTask('default', ['jshint', 'convert_json:text2json']);
+  grunt.registerTask('default', ['jshint', 'convert_json']);
 
 };

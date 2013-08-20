@@ -1,6 +1,7 @@
 # grunt-convert-json
 
-> Convert a file to a json file
+> Convert a text file to a json file reading lines and splitting them on delimiter.
+> Useful for create config file from a simple text source.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
@@ -37,53 +38,37 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
+#### options.spaces
+Type: `Int`
+Default value: `'2'`
 
-A string value that is used to do something with whatever.
+Spaces for JSON converter.
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
+#### options.delimiter
+Type: `Int`
+Default value: `'|'`
 
-A string value that is used to do something else with whatever else.
+The token used to split lines in key/values pairs.
+
+#### options.minify
+Type: `Boolean`
+Default value: `false`
+
+On true minify JSON output.
+
+#### options.onlyKeys
+Type: `Boolean`
+Default value: `false`
+
+On true will output only keys (values are blank for txt and empty strings for .json).
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
-```js
-grunt.initConfig({
-  convert_json: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
-```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
-```js
-grunt.initConfig({
-  convert_json: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
-```
+see `Gruntfile.js` for examples, look also at `test/convert_json_test.js`.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+**0.1.0** First relase.
+**0.1.1** Options and tests.
