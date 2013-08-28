@@ -19,7 +19,18 @@ module.exports = function (grunt) {
       delimiter: '|',
       minify:    false,
       onlyKeys:  false
-    });
+    }),
+
+    recoverProperType = function(data) {
+      var type = {
+        array: /\[*\]/,
+        boolean: /true|false/i
+      };
+      if (type.array.test(data) || type.boolean.test(data)) {
+        return JSON.parse(data);
+      }
+      return data.trim();
+    };
 
     this.files.forEach(function (f) {
       var srcFiles = f.src.filter(function (filepath) {
@@ -45,6 +56,10 @@ module.exports = function (grunt) {
         data = {};
         srcFiles.split(/\r?\n/).forEach(function (line) {
           var lineParts = line.split(options.delimiter);
+          if (lineParts[0] && lineParts[1]) {
+            lineParts[0] = recoverProperType(lineParts[0].trim());
+            lineParts[1] = recoverProperType(lineParts[1].trim());
+          }
           data[lineParts[0]] = (options.onlyKeys) ? '' : lineParts[1];
         });
 
