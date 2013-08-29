@@ -29,7 +29,7 @@ module.exports = function (grunt) {
       if (type.array.test(data) || type.boolean.test(data)) {
         return JSON.parse(data);
       }
-      return data.trim();
+      return data;
     };
 
     this.files.forEach(function (f) {
@@ -57,7 +57,7 @@ module.exports = function (grunt) {
         srcFiles.split(/\r?\n/).forEach(function (line) {
           var lineParts = line.split(options.delimiter);
           if (lineParts[0] && lineParts[1]) {
-            lineParts[0] = recoverProperType(lineParts[0].trim());
+            lineParts[0] = lineParts[0].trim();
             lineParts[1] = recoverProperType(lineParts[1].trim());
           }
           data[lineParts[0]] = (options.onlyKeys) ? '' : lineParts[1];
