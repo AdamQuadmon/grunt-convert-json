@@ -24,9 +24,10 @@ module.exports = function (grunt) {
     recoverProperType = function(data) {
       var type = {
         array: /\[*\]/,
-        boolean: /true|false/i
+        boolean: /true|false/i,
+        number: /^\d+$/
       };
-      if (type.array.test(data) || type.boolean.test(data)) {
+      if (type.array.test(data) || type.boolean.test(data) || type.number.test(data)) {
         return JSON.parse(data);
       }
       return data;
